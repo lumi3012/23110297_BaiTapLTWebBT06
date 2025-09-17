@@ -22,6 +22,8 @@ public class HomeController extends HttpServlet {
 
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	User u = (User) req.getSession().getAttribute(Constant.ATTR_USER);
+    	req.setAttribute("user", u);
     	req.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(req, resp);
 	}
 

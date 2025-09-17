@@ -60,7 +60,7 @@ public class CategoryDaoImpl implements CategoryDao {
             em.close();
         }
     }
-
+    
     @Override
     public Category update(Category c) {
         EntityManager em = JPAConfig.getEntityManager();

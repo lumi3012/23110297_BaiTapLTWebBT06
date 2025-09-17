@@ -1,5 +1,7 @@
 package decorator.dao.impl;
 
+import java.util.List;
+
 import decorator.config.JPAConfig;
 import decorator.dao.UserDao;
 import decorator.entity.User;
@@ -52,5 +54,50 @@ public class UserDaoImpl implements UserDao {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             throw ex;
         } finally { em.close(); }
+    }
+    
+    @Override 
+    public User update(User u) {
+    	EntityManager em = JPAConfig.getEntityManager();
+    	try {
+            em.getTransaction().begin();
+            User merged = em.merge(u);   // 👈 merge để cập nhật entity
+            em.getTransaction().commit();
+            return merged;
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+    
+    @Override
+    public void delete(Long id) {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            User u = em.find(User.class, id);
+            if (u != null) {
+                em.remove(u);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+    
+    @Override
+    public List<User> findAll() {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            TypedQuery<User> q = em.createQuery("SELECT u FROM User u", User.class);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
     }
 }

@@ -1,55 +1,86 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Trang chủ</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f0f4f0;
-        margin: 0;
-        padding: 0;
-    }
-    header, footer {
-        background: #2e7d32;
-        color: #fff;
-        text-align: center;
-        padding: 12px 0;
-    }
-    .container {
-        padding: 30px;
-        text-align: center;
-    }
-    a.btn {
-        display: inline-block;
-        padding: 12px 20px;
-        margin-top: 15px;
-        background: #43a047;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 6px;
-        transition: 0.3s;
-    }
-    a.btn:hover {
-        background: #2e7d32;
-    }
-</style>
+    <title>Trang chủ</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background: #2e7d32;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+        .sidebar {
+            width: 220px;
+            background: #f4f4f4;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+        .sidebar h3 {
+            margin-top: 0;
+            color: #2e7d32;
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background: #e0e0e0;
+            color: #2e7d32;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        .logout {
+            color: white;
+            float: right;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
 <header>
-    <h2>Chào mừng, <c:out value="${sessionScope.user.fullname}"/></h2>
+    Hệ thống Quản lý Web
+    <a class="logout" href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
 </header>
-
 <div class="container">
-    <h3>Đây là trang Home</h3>
-    <p>Bạn có thể truy cập danh mục sản phẩm tại đây:</p>
-    <a href="${pageContext.request.contextPath}/category" class="btn">Quản lý Category</a>
-</div>
+    <div class="sidebar">
+        <h3>Menu</h3>
+        <a href="${pageContext.request.contextPath}/category">📂 Quản lý Category</a>
+        <a href="${pageContext.request.contextPath}/video">🎬 Quản lý Video</a>
 
-<footer>
-    <p>&copy; 2025 My Website</p>
-</footer>
+        <c:if test="${sessionScope.user.roleid == 1}">
+            <a href="${pageContext.request.contextPath}/admin/users">👤 Quản lý User</a>
+        </c:if>
+    </div>
+    <div class="content">
+        <h2>Xin chào, ${sessionScope.user.fullname}!</h2>
+        <p>Role của bạn: 
+            <c:choose>
+                <c:when test="${sessionScope.user.roleid == 1}">Admin</c:when>
+                <c:when test="${sessionScope.user.roleid == 2}">Manager</c:when>
+                <c:otherwise>User</c:otherwise>
+            </c:choose>
+        </p>
+        <p>Hãy chọn chức năng ở menu bên trái để tiếp tục.</p>
+    </div>
+</div>
 </body>
 </html>

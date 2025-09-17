@@ -4,6 +4,9 @@ import decorator.dao.UserDao;
 import decorator.dao.impl.UserDaoImpl;
 import decorator.entity.User;
 import decorator.service.UserService;
+
+import java.util.List;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 
@@ -32,5 +35,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userDao.findByUsername(username);
+    }
+    
+    @Override
+    public User update(User u) {
+    	if (u.getPassword() != null && !u.getPassword().startsWith("$2a$")) {
+            String hashed = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt());
+            u.setPassword(hashed);
+        }
+        return userDao.update(u);
+    }
+    
+    @Override
+    public void delete(Long id) {
+        userDao.delete(id);
+    }
+    
+    @Override
+    public User findById(Long id) {
+        return userDao.findById(id);
+    }
+    
+    @Override
+    public User findByEmail(String email) {
+        return userDao.findByEmail(email);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 }

@@ -33,4 +33,9 @@ public class CategoryServiceImpl implements CategoryService {
     public void delete(Long id) {
         dao.delete(id);
     }
+    
+    @Override
+    public Category findById(Long id) {
+        return dao.findById(id);
+    }
 }

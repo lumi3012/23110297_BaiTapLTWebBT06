@@ -9,4 +9,5 @@ public interface CategoryService {
     Category create(Category c);
     Category update(Category c);
     void delete(Long id);
+    Category findById(Long id);
 }

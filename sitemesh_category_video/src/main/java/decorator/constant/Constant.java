@@ -1,7 +1,7 @@
 package decorator.constant;
 
 public class Constant {
-	public static final String ATTR_USER = "currentUser";
+	public static final String ATTR_USER = "user";
 
     // Cookie name for remember-me
     public static final String COOKIE_REMEMBER = "rememberUser";

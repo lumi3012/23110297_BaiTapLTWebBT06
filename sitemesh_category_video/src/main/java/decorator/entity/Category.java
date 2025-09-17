@@ -25,4 +25,10 @@ public class Category {
 
     @Column(length = 255)
     private String description;
+    
+    @Column(length = 50)
+    private String type;  // Ví dụ: "Music", "Education", "Movie"
+
+//    @Column(name = "active", nullable = false)
+//    private Boolean active = true;
 }
